@@ -3,9 +3,15 @@
   "version": "0.0.1",
   "description": "Apiary Mock CLI wrapper",
   "main": "index.js",
+  "bin": {
+    "apiary-mock": "bin/apiary-mock"
+  },
   "scripts": {
-    "test": "mocha \"./test/**/*.js\"",
-    "watch": "./node_modules/.bin/nodemon --watch ./src --watch ./test --exec 'npm run test;exit 0'"
+    "mocha": "mocha -t 10000 \"./test/**/*.js\"",
+    "cucumber": "cucumber.js",
+    "test": "npm run mocha && npm run cucumber",
+    "watch-mocha": "nodemon --watch ./src --watch ./test --exec 'npm run mocha; exit 0'",
+    "watch-cucumber": "nodemon --watch ./src --watch ./bin --watch ./features --exec 'npm run cucumber -- -t @wip'"
   },
   "repository": {
     "type": "git",
@@ -37,6 +43,7 @@
     "chai": "^4.1.1",
     "cheerio": "^1.0.0-rc.2",
     "cucumber": "^3.0.0",
+    "http-string-parser": "0.0.6",
     "mocha": "^3.5.0",
     "nock": "^9.0.14",
     "nodemon": "^1.11.0",
@@ -44,6 +51,9 @@
     "sinon": "^3.0.0"
   },
   "dependencies": {
-    "request": "^2.81.0"
+    "inliner": "^1.12.5",
+    "js-yaml": "^3.9.1",
+    "request": "^2.81.0",
+    "set-cookie-parser": "^2.0.0"
   }
 }

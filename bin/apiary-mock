@@ -1,25 +1,64 @@
 #!/usr/bin/env node
 
 const commander = require('commander');
-const start = require('src/start');
-
-let exitWithStatus = (error) => {
-  if(error == null or error == undefined){
-    return process.exit(0);
-  };
-  
-  if(error){
-    if(error.status){
-      return process.exit(error.status);
-    } else {
-      return process.exit(1);
-    };
-  };
-};
+const start = require('../src/start');
+const stop = require('../src/stop');
 
 commander
-  .command('start')
-  .action((options) => {
-    start(exitWithStatus);
-  }
+  .command('start <apiary-project-name>')
+  .action((apiaryProjectName)=>{
+    let config = {
+      domain: apiaryProjectName
+    };
+
+    start.execute(config, (error, result) =>{
+      if(error){
+        console.log(error.message);
+        process.exit(error.statusCode);
+      } else {
+        console.log(`Mock '${result.domain}' created.`);
+        console.log(`Mock URL: ${result.url}`);
+        process.exit(0)
+      }
+    });
+  });
+
+commander
+  .command('stop <apiary-project-name>')
+  .action((apiaryProjectName)=>{
+    let config = {
+      domain: apiaryProjectName  
+    } 
+
+    stop.execute(config, (error, result) =>{
+      if(error){
+        console.log(error.message);
+        process.exit(error.statusCode || 0);
+      } else {
+        console.log(result.message);
+        // I hate doing this. The logging, reporting should be handled in one place
+        // If taking this seriously - not just POC - this needs to a have a similar reporter
+        // architecture to the Dredd one.
+        console.log("Report URL: " + result.report);
+        process.exit(result.statusCode);    
+      }
+    });  
+  });
+
+commander.command('*')
+  .action( (command)=>{
+    console.log(`\n  error: Unknown command '${command}'\n`);
+    process.exit(1);
+  });
+
+
+commander.parse(process.argv);
+
+// Output help if nothing was given on the CLI
+if(process.argv.slice(2).length == 0){
+  commander.outputHelp((text)=>{
+    console.log(text);
+    process.exit(1);  
+  });
+};
 

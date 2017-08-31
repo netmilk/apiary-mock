@@ -5,25 +5,30 @@ Background:
   """
   # My API
 
-  # GET /hello
+  # POST /hello  
+  
+  + Request (application/json)
+
+          {"color": "green"}
 
   + Response 200 (text/plain)
 
-          Hello world
-
+          Hello green world!
   """
-  And I push it to Apiary to domain "mockcislot1"
-@wip
+  And I have exported the APIARY_API_KEY environment variable
+  And I run "apiary publish --api-name mockcislot1 --path apiary.apib"
+
+
 Scenario: No existing session
   When I run "apiary-mock start mockcislot1"
   Then the exit code is "0"
-  And I see the mock URL in the console
-  And the session file ".apiary-mock" was saved
+  And I can see the mock URL in the console
+  But I can't see text "session exists" in the console
 
 Scenario: Session already exists
-  When I run "apiary-mock start"
-  And I run "apiary-mock start"
-  Then the exit code is  "4"
-  And I see text "session exists" in the console
-  And I see text "apiary-mock stop" in the console
-  And I see the mock URL in the console
+  When I run "apiary-mock start mockcislot1"
+  And I run "apiary-mock start mockcislot1"
+  Then the exit code is "4"
+  And I can see text "already exists" in the console
+  And I can see the mock URL in the console
+

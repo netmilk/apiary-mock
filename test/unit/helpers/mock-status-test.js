@@ -6,7 +6,7 @@ const fs = require('fs');
 const mockStatus = require('../../../src/helpers/mock-status');
 
 describe("mock status", ()=>{
-  it("exports and object",()=>{
+  it("exports an object",()=>{
     assert.isObject(mockStatus);
   });
 
@@ -21,13 +21,14 @@ describe("mock status", ()=>{
       });
 
       // I could alternatively handle this declaratively and iterate through an array
-      // of fixtures and expectations. What do you think?
+      // of fixtures and expectations. But it'd be untested code, so I prefer this
+      // repetetive imperative approach. What do you think? i.e.
       //
       // const testCases = [
       //  {
-      //    "htmlFile":'',
-      //    "statusCode":'',
-      //    "message":''
+      //    "htmlFile":'...js',
+      //    "statusCode":'1',
+      //    "message":'...message...'
       //  }
       // ]
 
@@ -43,6 +44,7 @@ describe("mock status", ()=>{
               };
               html = data;
 
+              // I think this is a possible race condition
               mockStatus.extract(html, callback);
               done();
             })
@@ -76,7 +78,12 @@ describe("mock status", ()=>{
             it("should have a 'message' property containing 'OK'", ()=>{
               assert.property(secondArg,'message');
               assert.include(secondArg.message, 'OK');
-            })
+            });
+
+            it("should have a 'url' preoprty continaining mock URL", ()=>{
+              assert.property(secondArg, 'url');
+              assert.include(secondArg.url, 'http');
+            });
           })
         });
 
@@ -119,12 +126,18 @@ describe("mock status", ()=>{
 
             it("should have a 'statusCode' property set to 1",()=>{
               assert.propertyVal(secondArg, 'statusCode', 1)
-            })
+            });
 
             it("should have a 'message' property containing 'invalid'",()=>{
               assert.property(secondArg, "message");
               assert.include(secondArg.message, "invalid");
-            })
+            });
+
+            it("should have a 'url' preoprty continaining mock URL", ()=>{
+              assert.property(secondArg, 'url');
+              assert.include(secondArg.url, 'http');
+            });
+
           });
         });
 
@@ -173,6 +186,11 @@ describe("mock status", ()=>{
             it("should have a 'message' property containing 'invalid'",()=>{
               assert.property(secondArg, 'message');
               assert.include(secondArg.message, 'invalid');
+            });
+
+            it("should have a 'url' preoprty continaining mock URL", ()=>{
+              assert.property(secondArg, 'url');
+              assert.include(secondArg.url, 'http');
             });
           });
         });
@@ -223,6 +241,11 @@ describe("mock status", ()=>{
               assert.property(secondArg, 'message');
               assert.include(secondArg.message, 'undocumented');
             });
+
+            it("should have a 'url' preoprty continaining mock URL", ()=>{
+              assert.property(secondArg, 'url');
+              assert.include(secondArg.url, 'http');
+            });
           });
         });
 
@@ -272,11 +295,15 @@ describe("mock status", ()=>{
               assert.property(secondArg, 'message');
               assert.include(secondArg.message, 'no API calls');
             });
-          });
 
+            it("should have a 'url' preoprty continaining mock URL", ()=>{
+              assert.property(secondArg, 'url');
+              assert.include(secondArg.url, 'http');
+            });
+          });
         });
 
-        describe("if the first argument isn't a mock html",()=>{
+        describe("if the first argument isn't a mock html string",()=>{
           let htmlFile = "test/fixtures/mock-html/notamock.html"
           let callback = sinon.stub();
 
@@ -308,7 +335,7 @@ describe("mock status", ()=>{
 
             it("the error statusCode code should be 4",()=>{
               firstArg = callback.firstCall.args[0];
-              assert.propertyVal(firstArg, 'statusCode', 4);
+              assert.propertyVal(firstArg, 'statusCode', 5);
             });
           });
 
