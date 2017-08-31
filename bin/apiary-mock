@@ -1,0 +1,25 @@
+#!/usr/bin/env node
+
+const commander = require('commander');
+const start = require('src/start');
+
+let exitWithStatus = (error) => {
+  if(error == null or error == undefined){
+    return process.exit(0);
+  };
+  
+  if(error){
+    if(error.status){
+      return process.exit(error.status);
+    } else {
+      return process.exit(1);
+    };
+  };
+};
+
+commander
+  .command('start')
+  .action((options) => {
+    start(exitWithStatus);
+  }
+

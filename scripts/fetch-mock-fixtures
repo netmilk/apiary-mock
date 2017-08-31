@@ -1,0 +1,34 @@
+#!/bin/bash
+
+# Apiary Project
+API_PROJECT=http://docs.mockcislot1.apiary.io/traffic
+
+# No calls
+nocalls="s%3AB9Au_XQJwarKvn1MjT9bvG_XiJlJbapy.SMGI23IU%2BF8X9WLQxTr0dpjoK%2Br%2BR2027bDTH3KJmIU"
+
+# All good - all green
+allgood="s%3AAPhNWtVeAlSM5qFHdV58X1FAbR04KFKh.LHJOu5XEIKxfo2SlnUgoy52CQOb9A3HuULYX5Mbx%2BXQ"
+
+# One invalid, one green
+invalid="s%3ADaUNldhehdVLwT7UPxTyz2e648x45qiM.DoHOq1pdQzLJl8VDOZsk4PbEUpfdWrCi6G6fWYC7urI"
+
+# One undocumented one invalid, two green
+undocfailedmix="s%3Auwk6o8rcxcF6evahy8VYlE6PIDVWTCFL.ttxCkytRFjo5ov7cLxVsAPMoLRYH5W3KlaOL%2BnvafZs"
+
+# One undocumented, two green
+undoc="s%3Aa_AgPz7DQWn2yLyPH0r1SwbxriAEj8dq.JdGw20wH3WHru9XpaGtM18rVkLwoxQ%2BkebpWsJ6tzDA"
+
+fixtures="nocalls allgood invalid undocfailedmix undoc"
+for i in $fixtures; do
+  sid=${!i}
+  html=./test/fixtures/mock-html/$i.html
+  curl --silent  \
+    --cookie connect.sid="$sid" \
+    $API_PROJECT  > $html
+  echo "$html written"
+done
+
+curl --silent http://docs.mockcislot1.apiary.io/ > test/fixtures/mock-html/notamock.html
+eho "notamock written"
+
+
