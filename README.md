@@ -41,7 +41,7 @@ I'm developing API client for the integration with [API `mockdemo11` published i
     'https://private-038e18312f-mockdemo11.apiary-mock.com/hello'
   ```
 
-3. Retrieve the validation status of all API reqeusts sent to mock.
+3. Retrieve the validation status of all the API reqeusts sent to mock. Break the build if it fails.
 
   ```
   $ apiary-mock stop mockdemo11
