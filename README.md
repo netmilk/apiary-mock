@@ -73,16 +73,17 @@ $ apiary-mock --help
 
 
 ### `apiary-mock start <apiary-project-name>`
-
+Start the Mock for an API project saved in Apiary and retrieve the Mock API URL.
 ```
 $ apiary-mock start <apiary-project-name>
-Mock started at: http://xyz.apiary-mock.comk '<apiary-project-name>' created.
+Mock '<apiary-project-name>' created.
 Mock URL: http://private-anon-a8a711d1bf-<apiary-project-name>.apiary-mock.com
 ```
 
 See the [feature file](https://github.com/netmilk/apiary-mock/blob/master/features/mock-start.feature) for more details.
 
 ### `apiary-mock stop <apiary-project-name>`
+Stop the Mock, rertieve the validation status and save the report to a local HTML file.
 ```
 $ apiary-mock-stop <apiary-project-name>
 Contract validation passed. All API calls OK.
@@ -95,7 +96,7 @@ See the [feature file](https://github.com/netmilk/apiary-mock/blob/master/featur
 
 ## Use in Continuous Integration
 
-The Mock URL isn't deterministic at this moment. It changes for every mock instance. You need to extract it from the actual session YAML file saved to `.apiary-mock-<apiary-project-name>` after `apiary-mock start`
+The Mock URL isn't deterministic at this moment. It changes for every mock instance. You need to extract it from STDOUT or from the actual session YAML file saved to `.apiary-mock-<apiary-project-name>` after `apiary-mock start`
 
 ```
 $ cat .apiary-mock-<apiary-project-name> | grep '^url:' | awk '{print $2}' | tr -d "'"
