@@ -3,6 +3,8 @@
 > **DISCLAIMER:** This is not an official Apiary tool! Use it at your own risk. It might not work at all.
 > This tool was created for the demonstration purposes of the contract driven API clients development only.
 
+[![Build Status](https://travis-ci.org/netmilk/apiary-client.svg)](https://travis-ci.org/netmilk/apiary-client)
+
 Use Apiary Mock programatically! Test API client requests aginst the API Blueprint or Swagger/OAS contract driven Apiary Validating HTTP mock in **continuous integration.**
 
 Apiary Mock validates the requests sent from your client and breaks the build if the client breaks the contract.
