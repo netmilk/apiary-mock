@@ -44,7 +44,7 @@ defineSupportCode(function({Given, When, Then}) {
 
   When('I run {string}', function (command, callback) {
     let execOptions = {
-      "shell": "/usr/local/bin/bash",
+      //"shell": "/usr/local/bin/bash",
       "env": process.env
     };
 
