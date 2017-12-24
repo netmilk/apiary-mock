@@ -17,7 +17,7 @@ Apiary Mock validates the requests sent from your client and breaks the build if
 ## Installation
 
 ```
-$ npm install -g git+ssh://github.com/netmilk/apiary-mock
+$ npm install -g https://github.com/netmilk/apiary-mock.git
 ```
 
 ## Example
